@@ -1,26 +1,24 @@
 use std::io::{stdout, Write};
 use std::process::Stdio;
 
+fn run(cmd: &str, args: &[&str], message: &str) {
+    let child = std::process::Command::new(cmd)
+        .args(args)
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .output()
+        .expect(message);
+    stdout().write_all(&child.stdout).unwrap();
+}
+
 fn backend(package_manager: &str, package: &str, operation: &str) {
     if package_manager == "portage"{
         if operation == "install" {
             let message = ["Could not install ", &package].concat();
-            let child = std::process::Command::new("emerge")
-                .args(&["-a", "-t", "-v", &package])
-                .stdin(Stdio::inherit())
-                .stdout(Stdio::inherit())
-                .output()
-                .expect(&message);
-            stdout().write_all(&child.stdout).unwrap();
+            run("emerge", &["-a", "-t", "-v", &package], &message);
         } else if operation == "remove" {
             let message = ["Could not remove ", &package].concat();
-            let child = std::process::Command::new("emerge")
-                .args(&["-a", "-v", "-c", &package])
-                .stdin(Stdio::inherit())
-                .stdout(Stdio::inherit())
-                .output()
-                .expect(&message);
-            stdout().write_all(&child.stdout).unwrap();
+            run("emerge", &["-a", "-v", "-c", &package], &message);
         }
     }
 }
