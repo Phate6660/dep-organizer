@@ -7,24 +7,27 @@ Normally someone like me would just install them and get to building,
 but you know what that leads to? Forgetting what I installed in the future,
 and wondering why I have so many packages installed.
 
-## Installation
-`git clone https://github.com/Phate6660/dep-organizer && cd dep-organizer`
-`cargo build --release` or `cargo install --path .`
-
 ## Usage
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
 - Bulk install the dependencies for a package with `dep-organizer install`
 - Bulk remove the dependencies for a package with `dep-organizer remove`
 
-I have more feature planned for this, not to worry.
-But of course, don't hesitate to open an issue if you want a feature.
-And of course, contributions are always welcome.
+## Installation
+`git clone https://github.com/Phate6660/dep-organizer && cd dep-organizer`
+`cargo build --release` or `cargo install --path .`
 
 ## Supported
 Package managers:
 - Portage
 
+Misc:
+- Running as root via `sudo` (only needed for package operations)
+
 ## Contributing
+I have more feature planned for this, not to worry.
+But of course, don't hesitate to open an issue if you want a feature.
+And of course, contributions are always welcome.
+
 But PLEASE keep in mind. Everything I release is public domain.
 So you have to be comfortable with public-domaining your contribution.
