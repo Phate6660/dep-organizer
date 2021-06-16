@@ -44,9 +44,9 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             } else {
                 cmd
             };
-            // xbps is not needed in this match statement, as you only need to provide the package.
             let mut args: Vec<&str> = match cmd {
                 "emerge" => vec!("-a", "-v", "-c"),
+                "xbps-remove" => vec!(),
                 _ => vec!("N/A"),
             };
             if args[0] == "N/A" {
