@@ -20,6 +20,7 @@ This aims to fix that. With this program, I can:
 ## Supported
 Package managers:
 - Portage
+- XBPS (untested, awaiting verification of working)
 
 Misc:
 - Running as root via `sudo` (only needed for package operations)
