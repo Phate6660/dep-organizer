@@ -11,19 +11,31 @@ fn run(cmd: &str, args: &[&str], message: &str) {
     stdout().write_all(&child.stdout).unwrap();
 }
 
-fn match_op(operation: &str, cmd: &str, package: &str) {
+fn generate_message(initial_msg: &str, package_vector: &Vec<&str>) -> String {
+    let mut message = initial_msg.to_string();
+    for i in package_vector {
+        message.push_str(i);
+        message.push_str(", ");
+    }
+    message
+}
+
+fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
     match operation {
         "install" => {
-            let args: Vec<&str> = match cmd {
-                "emerge" => vec!("-a", "-t", "-v", &package),
-                "xbps-install" => vec!("-S", &package),
+            let mut args: Vec<&str> = match cmd {
+                "emerge" => vec!("-a", "-t", "-v"),
+                "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
             };
             if args[0] == "N/A" {
                 println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
                 exit(1);
             }
-            let message = ["Could not install ", &package].concat();
+            for i in package_vector {
+                args.push(i);
+            }
+            let message = generate_message("Could not install ", package_vector);
             run(cmd, &args, &message);
         },
         "remove" => {
@@ -32,16 +44,19 @@ fn match_op(operation: &str, cmd: &str, package: &str) {
             } else {
                 cmd
             };
-            let args: Vec<&str> = match cmd {
-                "emerge" => vec!("-a", "-v", "-c", &package),
-                "xbps-remove" => vec!(&package),
+            // xbps is not needed in this match statement, as you only need to provide the package.
+            let mut args: Vec<&str> = match cmd {
+                "emerge" => vec!("-a", "-v", "-c"),
                 _ => vec!("N/A"),
             };
             if args[0] == "N/A" {
                 println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
                 exit(1);
             }
-            let message = ["Could not remove ", &package].concat();
+            for i in package_vector {
+                args.push(i);
+            }
+            let message = generate_message("Could not install ", package_vector);
             run(cmd, &args, &message);
         },
         _ => {
@@ -51,10 +66,10 @@ fn match_op(operation: &str, cmd: &str, package: &str) {
     }
 }
 
-fn backend(package_manager: &str, package: &str, operation: &str) {
+fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
     match package_manager {
-        "portage" => match_op(operation, "emerge", package),
-        "xbps" => match_op(operation, "xbps-install", package),
+        "portage" => match_op(operation, "emerge", package_vector),
+        "xbps" => match_op(operation, "xbps-install", package_vector),
         _ => {
             println!("Sorry, {} is not a supported package manager right now.", package_manager);
             exit(1);
@@ -65,7 +80,5 @@ fn backend(package_manager: &str, package: &str, operation: &str) {
 pub fn manage(package_manager: &str, packages: &str, operation: &str) {
     let packages = packages.replace("\n", " ");
     let package_vector = packages.split(" ").collect::<Vec<&str>>();
-    for i in package_vector {
-        backend(&package_manager, &i.to_string(), &operation);
-    }
+    backend(&package_manager, &package_vector, &operation);
 }

@@ -10,11 +10,7 @@ and wondering why I have so many packages installed.
 ## Usage
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
-
 - Bulk install the dependencies for a package with `dep-organizer install`
-  + Note: This will create an array of packages from the specified deps in the 
-    file for the package which will then be iterated over to install the packages.
-
 - Bulk remove the dependencies for a package with `dep-organizer remove`
 
 ## Installation
@@ -31,9 +27,6 @@ Misc:
 
 ## TODO
 - Account for more cases of root besides using `sudo`
-
-- Allow installing all packages at once, instead of iterating over the package array
-  + Should be simple to implement, so this will be done soon
 
 ## Contributing
 I have more feature planned for this, not to worry.
