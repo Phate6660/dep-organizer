@@ -19,8 +19,8 @@ This aims to fix that. With this program, I can:
 
 ## Supported
 Package managers:
-- Portage
-- XBPS (untested, awaiting verification of working)
+- Portage [identified as `portage` in the program]
+- XBPS (untested, awaiting verification of working) [identified as `xbps` in the program]
 
 Misc:
 - Running as root via `sudo` (only needed for package operations)
