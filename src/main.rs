@@ -1,6 +1,5 @@
 mod pkg;
 mod track;
-use std::io::prelude::Write;
 use std::path::Path;
 
 fn ensure_directory(dir: &Path) {
@@ -55,27 +54,11 @@ Current operations supported:
     ensure_directory(manager_dir);
 
     let (dependent_package, dependee_packages) = 
-        crate::track::log(operation, &package_manager, &raw_manager_dir);
+        track::log(operation, &package_manager, &raw_manager_dir);
 
     if operation == "write" {
-        let package_file_dir = format_and_trim(&raw_manager_dir, &dependent_package);
-        println!("Dependencies written to: {}", package_file_dir);
-        let package_file_dir = Path::new(&package_file_dir);
-
-        if package_file_dir.exists() {
-            let mut package_file = std::fs::OpenOptions::new()
-                .write(true)
-                .append(true)
-                .open(package_file_dir)
-                .unwrap();
-            write!(package_file, "{}", dependee_packages).unwrap();
-        } else {
-            let mut package_file = std::fs::File::create(package_file_dir).unwrap();
-            package_file
-                .write_all(dependee_packages.as_bytes())
-                .unwrap();
-        }
+        track::write(&raw_manager_dir, &dependent_package, &dependee_packages);
     } else if operation == "install" || operation == "uninstall" {
-        crate::pkg::manage(&package_manager, &dependee_packages, operation);
+        pkg::manage(&package_manager, &dependee_packages, operation);
     }
 }

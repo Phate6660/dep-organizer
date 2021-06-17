@@ -1,3 +1,4 @@
+use std::io::prelude::Write;
 use std::io::{Read, stdin};
 
 pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (String, String) {
@@ -46,3 +47,22 @@ pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (St
     }
 }
 
+pub fn write(raw_manager_dir: &str, dependent_package: &str, dependee_packages: &str) {
+    let package_file_dir = crate::format_and_trim(raw_manager_dir, dependent_package);
+    println!("Dependencies written to: {}", package_file_dir);
+    let package_file_dir = std::path::Path::new(&package_file_dir);
+
+    if package_file_dir.exists() {
+        let mut package_file = std::fs::OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(package_file_dir)
+            .unwrap();
+        write!(package_file, "{}", dependee_packages).unwrap();
+    } else {
+        let mut package_file = std::fs::File::create(package_file_dir).unwrap();
+        package_file
+            .write_all(dependee_packages.as_bytes())
+            .unwrap();
+    }
+}
