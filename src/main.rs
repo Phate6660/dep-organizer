@@ -20,7 +20,12 @@ fn main() {
     let operation = args.get(1).unwrap_or(&na);
 
     if operation == "N/A" {
-        println!("Current operations supported:\n- write (track dependencies)\n- install (bulk install dependencies)\n- uninstall (bulk uninstall dependencies)");
+        println!("
+Current operations supported:
+- write (track dependencies)
+- install (bulk install dependencies)
+- uninstall (bulk uninstall dependencies)
+        ");
         std::process::exit(1);
     }
 
