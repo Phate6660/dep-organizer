@@ -1,12 +1,6 @@
 use std::io::{Read, stdin};
 
-pub fn log(operation: &str, raw_config_dir: &str) -> (String, String, String) {
-    println!("Please enter your package manager.");
-    let mut package_manager = String::new();
-    stdin()
-        .read_line(&mut package_manager)
-        .expect("Failed to read input.");
-
+pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (String, String) {
     println!("\nPlease enter the dependent package.");
     let mut dependent_package = String::new();
     stdin()
@@ -23,14 +17,13 @@ pub fn log(operation: &str, raw_config_dir: &str) -> (String, String, String) {
 
     let mut dependee_packages = String::new();
     if operation == "install" || operation == "remove" {
-        let deps_file = [raw_config_dir, "/", dependent_package].concat();
+        let deps_file = crate::format_and_trim(raw_manager_dir, dependent_package);
         let mut dependee_packages_file = std::fs::File::open(deps_file.trim())
             .expect("Unable to read the file.");
         dependee_packages_file.read_to_string(&mut dependee_packages)
             .expect("Could not read file.");
         dependee_packages = dependee_packages.replace("\n", " ").trim().to_string();
         (
-            package_manager.trim().to_string(),
             dependent_package.trim().to_string(),
             dependee_packages
         )
@@ -47,7 +40,6 @@ pub fn log(operation: &str, raw_config_dir: &str) -> (String, String, String) {
         };
 
         (
-            package_manager.trim().to_string(),
             dependent_package.trim().to_string(),
             dependee_packages.to_string()
         )

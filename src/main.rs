@@ -3,10 +3,15 @@ mod pkg;
 use std::io::prelude::Write;
 use std::path::Path;
 
-fn init(config_dir: &Path) {
-    if !config_dir.exists() {
-        std::fs::create_dir(config_dir).unwrap();
+fn ensure_directory(dir: &Path) {
+    if !dir.exists() {
+        std::fs::create_dir(dir).unwrap();
     }
+}
+
+fn format_and_trim(part1: &str, part2: &str) -> String {
+    let output = format!("{}/{}", part1, part2);
+    output.trim().to_string()
 }
 
 fn main() {
@@ -20,19 +25,29 @@ fn main() {
         ["/home/", real_user.as_str()].concat()
     };
 
-    let raw_config_dir = [home, "/.config/dep-organizer".to_string()].concat();
+    let raw_config_dir = format!("{}/.config/dep-organizer", home);
     let config_dir = Path::new(&raw_config_dir);
+    ensure_directory(&config_dir);
 
-    init(&config_dir);
+    println!("Please enter your package manager.");
+    let mut package_manager = String::new();
+    std::io::stdin()
+        .read_line(&mut package_manager)
+        .expect("Failed to read input.");
+    package_manager = package_manager.trim().to_string();
+
+    let raw_manager_dir = format_and_trim(&raw_config_dir, &package_manager);
+    let manager_dir = Path::new(&raw_manager_dir);
+    ensure_directory(&manager_dir);
 
     let args = std::env::args().collect::<Vec<String>>();
     let operation = &args[1];
-    let (package_manager, dependent_package, dependee_packages) = 
-        crate::add::log(operation, &raw_config_dir);
+    let (dependent_package, dependee_packages) = 
+        crate::add::log(operation, &package_manager, &raw_manager_dir);
 
     if operation == "write" {
-        let package_file_dir = [raw_config_dir, "/".to_string(), dependent_package].concat();
-        println!("{}", package_file_dir);
+        let package_file_dir = format_and_trim(&raw_manager_dir, &dependent_package);
+        println!("Dependencies written to: {}", package_file_dir);
         let package_file_dir = Path::new(&package_file_dir);
 
         if package_file_dir.exists() {
