@@ -4,6 +4,7 @@ use std::process::{exit, Stdio};
 fn run(cmd: &str, args: &[&str], message: &str) {
     let child = std::process::Command::new(cmd)
         .args(args)
+        .stderr(Stdio::inherit())
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .output()
@@ -46,17 +47,17 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             };
             let mut args: Vec<&str> = match cmd {
                 "emerge" => vec!("-a", "-v", "-c"),
-                "xbps-remove" => vec!(),
+                "xbps-remove" => vec!("-R"),
                 _ => vec!("N/A"),
             };
+            for i in package_vector {
+                args.push(i);
+            }
             if args[0] == "N/A" {
                 println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
                 exit(1);
             }
-            for i in package_vector {
-                args.push(i);
-            }
-            let message = generate_message("Could not install ", package_vector);
+            let message = generate_message("Could not remove ", package_vector);
             run(cmd, &args, &message);
         },
         _ => {
