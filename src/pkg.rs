@@ -50,8 +50,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             };
             let mut args: Vec<&str> = match cmd {
                 "apk" => vec!("del"),
-                "apt" => vec!("autoremove"),
-                "dnf" | "zypper" => vec!("remove"),
+                "apt" | "dnf" | "zypper" => vec!("remove"),
                 "emerge" => vec!("-a", "-v", "-c"),
                 "pacman" => vec!("-R", "-s"),
                 "xbps-remove" => vec!("-R"),
