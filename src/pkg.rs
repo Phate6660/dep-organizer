@@ -29,12 +29,12 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
             };
+            for i in package_vector {
+                args.push(i);
+            }
             if args[0] == "N/A" {
                 println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
                 exit(1);
-            }
-            for i in package_vector {
-                args.push(i);
             }
             let message = generate_message("Could not install ", package_vector);
             run(cmd, &args, &message);
