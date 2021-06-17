@@ -22,6 +22,7 @@ Package managers:
 - apk*
 - APT*
 - DNF*
+- Pacman*
 - Portage
 - XBPS**
 - Zypper*

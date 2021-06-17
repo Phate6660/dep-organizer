@@ -28,6 +28,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 "apk" => vec!("add"),
                 "apt" | "dnf" | "zypper" => vec!("install"),
                 "emerge" => vec!("-a", "-t", "-v"),
+                "pacman" => vec!("-S"),
                 "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
             };
@@ -52,6 +53,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 "apt" => vec!("autoremove"),
                 "dnf" | "zypper" => vec!("remove"),
                 "emerge" => vec!("-a", "-v", "-c"),
+                "pacman" => vec!("-R", "-s"),
                 "xbps-remove" => vec!("-R"),
                 _ => vec!("N/A"),
             };
@@ -77,6 +79,7 @@ fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
         "apk" => match_op(operation, "apk", package_vector),
         "apt" => match_op(operation, "apt", package_vector),
         "dnf" => match_op(operation, "dnf", package_vector),
+        "pacman" => match_op(operation, "pacman", package_vector),
         "portage" => match_op(operation, "emerge", package_vector),
         "xbps" => match_op(operation, "xbps-install", package_vector),
         "zypper" => match_op(operation, "zypper", package_vector),
