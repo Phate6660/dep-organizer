@@ -24,8 +24,8 @@ Package managers:
 - Portage [identified as `portage`]
 - XBPS** [identified as `xbps`]
 
-* untested, awaiting verification of working
-** slightly tested
+* Untested, awaiting verification of working.
+** Slightly tested.
 
 Misc:
 - Running as root via `sudo` (only needed for package operations)
