@@ -21,9 +21,10 @@ fn main() {
     if operation == "N/A" {
         println!("
 Current operations supported:
-- write (track dependencies)
-- install (bulk install dependencies)
-- uninstall (bulk uninstall dependencies)
+- ammdend (remove any duplicate dependencies for a dependent package)
+- write (track dependencies for a dependent package)
+- install (bulk install dependencies for a dependent package)
+- uninstall (bulk uninstall dependencies for a dependent package)
         ");
         std::process::exit(1);
     }
@@ -56,7 +57,9 @@ Current operations supported:
     let (dependent_package, dependee_packages) = 
         track::log(operation, &package_manager, &raw_manager_dir);
 
-    if operation == "write" {
+    if operation == "ammend" {
+        track::ammend(&raw_manager_dir, &dependent_package);
+    } else if operation == "write" {
         track::write(&raw_manager_dir, &dependent_package, &dependee_packages);
     } else if operation == "install" || operation == "uninstall" {
         pkg::manage(&package_manager, &dependee_packages, operation);

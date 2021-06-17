@@ -10,6 +10,7 @@ and wondering why I have so many packages installed.
 ## Usage
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
+- Remove any duplicate dependencies that may have been tracked with `dep-organizer ammend`
 - Bulk install the dependencies for a package with `dep-organizer install`
 - Bulk remove the dependencies for a package with `dep-organizer uninstall`
 

@@ -1,5 +1,28 @@
-use std::io::prelude::Write;
+use std::{
+    collections::BTreeSet,
+    fs::File,
+    io::{BufRead, BufReader, Write},
+};
 use std::io::{Read, stdin};
+
+pub fn ammend(raw_manager_dir: &str, dependent_package: &str) {
+    let package_file_dir = crate::format_and_trim(raw_manager_dir, dependent_package);
+    let file = File::open(&package_file_dir).expect("Could not open the file. Are you sure you've use write yet?");
+    let reader = BufReader::new(file);
+
+    let lines: BTreeSet<_> = reader
+        .lines()
+        .map(|l| l.unwrap())
+        .collect();
+
+    let mut file = File::create(package_file_dir).expect("Could not open the file for writing!");
+    for line in lines {
+        file.write_all(line.as_bytes())
+            .expect("Couldn't write to file");
+
+        file.write_all(b"\n").expect("Couldn't write to file");
+    }
+}
 
 pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (String, String) {
     println!("\nPlease enter the dependent package.");
@@ -15,6 +38,10 @@ pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (St
         } else {
             ("", dependent_package.as_str())
         };
+
+    if operation == "ammend" {
+        return (dependent_package.trim().to_string(), "".to_string())
+    }
 
     let mut dependee_packages = String::new();
     if operation == "install" || operation == "remove" {
