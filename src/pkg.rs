@@ -14,9 +14,15 @@ fn run(cmd: &str, args: &[&str], message: &str) {
 
 fn generate_message(initial_msg: &str, package_vector: &[&str]) -> String {
     let mut message = initial_msg.to_string();
+    let mut n = 0;
     for i in package_vector {
+        n += 1;
         message.push_str(i);
-        message.push_str(", ");
+        if package_vector.len() != n {
+            message.push_str(", ");
+        } else {
+            message.push('.');
+        }
     }
     message
 }
