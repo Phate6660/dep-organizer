@@ -28,8 +28,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 "apk" => vec!("add"),
                 "apt" | "dnf" | "zypper" => vec!("install"),
                 "emerge" => vec!("-a", "-t", "-v"),
-                "pacman" => vec!("-S"),
-                "xbps-install" => vec!("-S"),
+                "pacman" | "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
             };
             for i in package_vector {
