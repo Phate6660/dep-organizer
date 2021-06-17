@@ -33,7 +33,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 args.push(i);
             }
             if args[0] == "N/A" {
-                println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
+                println!("You found a bug in the install operation of `pkg::match_op()`!");
                 exit(1);
             }
             let message = generate_message("Could not install ", package_vector);
@@ -54,7 +54,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
                 args.push(i);
             }
             if args[0] == "N/A" {
-                println!("You found a bug, it shouldn't be possible to reach this but I had to cover this to make rust happy.");
+                println!("You found a bug in the remove operation of `pkg::match_op()`!");
                 exit(1);
             }
             let message = generate_message("Could not remove ", package_vector);
