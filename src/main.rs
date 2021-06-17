@@ -15,6 +15,15 @@ fn format_and_trim(part1: &str, part2: &str) -> String {
 }
 
 fn main() {
+    let args = std::env::args().collect::<Vec<String>>();
+    let na = "N/A".to_string();
+    let operation = args.get(1).unwrap_or(&na);
+
+    if operation == "N/A" {
+        println!("Current operations supported:\n- write (track dependencies)\n- install (bulk install dependencies)\n- uninstall (bulk uninstall dependencies)");
+        std::process::exit(1);
+    }
+
     let user = std::env::var("USER").unwrap();
     let home = if user != "root" {
         std::env::var("HOME").unwrap()
@@ -40,10 +49,8 @@ fn main() {
     let manager_dir = Path::new(&raw_manager_dir);
     ensure_directory(&manager_dir);
 
-    let args = std::env::args().collect::<Vec<String>>();
-    let operation = &args[1];
     let (dependent_package, dependee_packages) = 
-        crate::add::log(operation, &package_manager, &raw_manager_dir);
+        crate::add::log(&operation, &package_manager, &raw_manager_dir);
 
     if operation == "write" {
         let package_file_dir = format_and_trim(&raw_manager_dir, &dependent_package);
@@ -63,7 +70,7 @@ fn main() {
                 .write_all(dependee_packages.as_bytes())
                 .unwrap();
         }
-    } else if operation == "install" || operation == "remove" {
+    } else if operation == "install" || operation == "uninstall" {
         crate::pkg::manage(&package_manager, &dependee_packages, &operation);
     }
 }

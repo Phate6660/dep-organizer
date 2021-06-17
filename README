@@ -11,7 +11,7 @@ and wondering why I have so many packages installed.
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
 - Bulk install the dependencies for a package with `dep-organizer install`
-- Bulk remove the dependencies for a package with `dep-organizer remove`
+- Bulk remove the dependencies for a package with `dep-organizer uninstall`
 
 ## Installation
 `git clone https://github.com/Phate6660/dep-organizer && cd dep-organizer`

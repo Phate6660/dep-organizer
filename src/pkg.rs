@@ -41,7 +41,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             let message = generate_message("Could not install ", package_vector);
             run(cmd, &args, &message);
         },
-        "remove" => {
+        "uninstall" => {
             let cmd = if cmd == "xbps-install" {
                 "xbps-remove"
             } else {
