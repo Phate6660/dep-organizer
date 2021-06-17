@@ -24,11 +24,10 @@ Package managers:
 - DNF*
 - Pacman*
 - Portage
-- XBPS**
+- XBPS
 - Zypper*
 
 * Untested, awaiting verification of working.
-** Slightly tested.
 
 Note: Package managers are identified as their name in all lowercase in the program.
 
