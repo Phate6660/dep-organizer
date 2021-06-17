@@ -19,8 +19,13 @@ This aims to fix that. With this program, I can:
 
 ## Supported
 Package managers:
-- Portage [identified as `portage` in the program]
-- XBPS (untested, awaiting verification of working) [identified as `xbps` in the program]
+- apk* [idenentified as `apk`]
+- APT* [identified as `apt`]
+- Portage [identified as `portage`]
+- XBPS** [identified as `xbps`]
+
+* untested, awaiting verification of working
+** slightly tested
 
 Misc:
 - Running as root via `sudo` (only needed for package operations)
