@@ -1,5 +1,5 @@
-mod add;
 mod pkg;
+mod track;
 use std::io::prelude::Write;
 use std::path::Path;
 
@@ -55,7 +55,7 @@ Current operations supported:
     ensure_directory(manager_dir);
 
     let (dependent_package, dependee_packages) = 
-        crate::add::log(operation, &package_manager, &raw_manager_dir);
+        crate::track::log(operation, &package_manager, &raw_manager_dir);
 
     if operation == "write" {
         let package_file_dir = format_and_trim(&raw_manager_dir, &dependent_package);
