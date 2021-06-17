@@ -26,7 +26,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
         "install" => {
             let mut args: Vec<&str> = match cmd {
                 "apk" => vec!("add"),
-                "apt" => vec!("install"),
+                "apt" | "dnf" => vec!("install"),
                 "emerge" => vec!("-a", "-t", "-v"),
                 "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
@@ -50,6 +50,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             let mut args: Vec<&str> = match cmd {
                 "apk" => vec!("del"),
                 "apt" => vec!("autoremove"),
+                "dnf" => vec!("remove"),
                 "emerge" => vec!("-a", "-v", "-c"),
                 "xbps-remove" => vec!("-R"),
                 _ => vec!("N/A"),
@@ -75,6 +76,7 @@ fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
     match package_manager {
         "apk" => match_op(operation, "apk", package_vector),
         "apt" => match_op(operation, "apt", package_vector),
+        "dnf" => match_op(operation, "dnf", package_vector),
         "portage" => match_op(operation, "emerge", package_vector),
         "xbps" => match_op(operation, "xbps-install", package_vector),
         _ => {

@@ -21,6 +21,7 @@ This aims to fix that. With this program, I can:
 Package managers:
 - apk* [idenentified as `apk`]
 - APT* [identified as `apt`]
+- DNF* [identified as `dnf`]
 - Portage [identified as `portage`]
 - XBPS** [identified as `xbps`]
 
