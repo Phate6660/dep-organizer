@@ -12,7 +12,7 @@ fn run(cmd: &str, args: &[&str], message: &str) {
     stdout().write_all(&child.stdout).unwrap();
 }
 
-fn generate_message(initial_msg: &str, package_vector: &Vec<&str>) -> String {
+fn generate_message(initial_msg: &str, package_vector: &[&str]) -> String {
     let mut message = initial_msg.to_string();
     for i in package_vector {
         message.push_str(i);
@@ -21,7 +21,7 @@ fn generate_message(initial_msg: &str, package_vector: &Vec<&str>) -> String {
     message
 }
 
-fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
+fn match_op(operation: &str, cmd: &str, package_vector: &[&str]) {
     match operation {
         "install" => {
             let mut args: Vec<&str> = match cmd {
@@ -72,7 +72,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
     }
 }
 
-fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
+fn backend(package_manager: &str, package_vector: &[&str], operation: &str) {
     match package_manager {
         "apk" => match_op(operation, "apk", package_vector),
         "apt" => match_op(operation, "apt", package_vector),
@@ -90,6 +90,6 @@ fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
 
 pub fn manage(package_manager: &str, packages: &str, operation: &str) {
     let packages = packages.replace("\n", " ");
-    let package_vector = packages.split(" ").collect::<Vec<&str>>();
-    backend(&package_manager, &package_vector, &operation);
+    let package_vector = packages.split(' ').collect::<Vec<&str>>();
+    backend(package_manager, &package_vector, operation);
 }

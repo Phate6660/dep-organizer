@@ -8,8 +8,8 @@ pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (St
         .expect("Failed to read input.");
 
     let (_package_category, dependent_package) = 
-        if package_manager.trim() == "portage" && dependent_package.contains("/") {
-            let package_vector = dependent_package.split("/").collect::<Vec<&str>>();
+        if package_manager.trim() == "portage" && dependent_package.contains('/') {
+            let package_vector = dependent_package.split('/').collect::<Vec<&str>>();
             (package_vector[0], package_vector[1])
         } else {
             ("", dependent_package.as_str())
@@ -33,7 +33,7 @@ pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (St
             .read_line(&mut dependee_packages)
             .expect("Failed to read input.");
 
-        let dependee_packages = if dependee_packages.trim().contains(" ") {
+        let dependee_packages = if dependee_packages.trim().contains(' ') {
             dependee_packages.replace(" ", "\n")
         } else {
             dependee_packages
@@ -41,7 +41,7 @@ pub fn log(operation: &str, package_manager: &str, raw_manager_dir: &str) -> (St
 
         (
             dependent_package.trim().to_string(),
-            dependee_packages.to_string()
+            dependee_packages
         )
     }
 }

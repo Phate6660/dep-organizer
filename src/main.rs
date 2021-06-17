@@ -41,7 +41,7 @@ Current operations supported:
 
     let raw_config_dir = format!("{}/.config/dep-organizer", home);
     let config_dir = Path::new(&raw_config_dir);
-    ensure_directory(&config_dir);
+    ensure_directory(config_dir);
 
     println!("Please enter your package manager.");
     let mut package_manager = String::new();
@@ -52,10 +52,10 @@ Current operations supported:
 
     let raw_manager_dir = format_and_trim(&raw_config_dir, &package_manager);
     let manager_dir = Path::new(&raw_manager_dir);
-    ensure_directory(&manager_dir);
+    ensure_directory(manager_dir);
 
     let (dependent_package, dependee_packages) = 
-        crate::add::log(&operation, &package_manager, &raw_manager_dir);
+        crate::add::log(operation, &package_manager, &raw_manager_dir);
 
     if operation == "write" {
         let package_file_dir = format_and_trim(&raw_manager_dir, &dependent_package);
@@ -76,6 +76,6 @@ Current operations supported:
                 .unwrap();
         }
     } else if operation == "install" || operation == "uninstall" {
-        crate::pkg::manage(&package_manager, &dependee_packages, &operation);
+        crate::pkg::manage(&package_manager, &dependee_packages, operation);
     }
 }
