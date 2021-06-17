@@ -26,7 +26,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
         "install" => {
             let mut args: Vec<&str> = match cmd {
                 "apk" => vec!("add"),
-                "apt" | "dnf" => vec!("install"),
+                "apt" | "dnf" | "zypper" => vec!("install"),
                 "emerge" => vec!("-a", "-t", "-v"),
                 "xbps-install" => vec!("-S"),
                 _ => vec!("N/A"),
@@ -50,7 +50,7 @@ fn match_op(operation: &str, cmd: &str, package_vector: &Vec<&str>) {
             let mut args: Vec<&str> = match cmd {
                 "apk" => vec!("del"),
                 "apt" => vec!("autoremove"),
-                "dnf" => vec!("remove"),
+                "dnf" | "zypper" => vec!("remove"),
                 "emerge" => vec!("-a", "-v", "-c"),
                 "xbps-remove" => vec!("-R"),
                 _ => vec!("N/A"),
@@ -79,6 +79,7 @@ fn backend(package_manager: &str, package_vector: &Vec<&str>, operation: &str) {
         "dnf" => match_op(operation, "dnf", package_vector),
         "portage" => match_op(operation, "emerge", package_vector),
         "xbps" => match_op(operation, "xbps-install", package_vector),
+        "zypper" => match_op(operation, "zypper", package_vector),
         _ => {
             println!("Sorry, {} is not a supported package manager right now.", package_manager);
             exit(1);
