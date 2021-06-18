@@ -17,6 +17,7 @@ fn print_help_and_exit() {
     println!("
 Current operations supported:
 - ammdend (remove any duplicate dependencies for a dependent package)
+- remove (stop tracking dependencies for a program)
 - write (track dependencies for a dependent package)
 - install (bulk install dependencies for a dependent package)
 - uninstall (bulk uninstall dependencies for a dependent package)
