@@ -13,20 +13,24 @@ fn format_and_trim(part1: &str, part2: &str) -> String {
     output.trim().to_string()
 }
 
+fn print_help_and_exit() {
+    println!("
+Current operations supported:
+- ammdend (remove any duplicate dependencies for a dependent package)
+- write (track dependencies for a dependent package)
+- install (bulk install dependencies for a dependent package)
+- uninstall (bulk uninstall dependencies for a dependent package)
+    ");
+    std::process::exit(1);
+}
+
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
     let na = "N/A".to_string();
     let operation = args.get(1).unwrap_or(&na);
 
     if operation == "N/A" {
-        println!("
-Current operations supported:
-- ammdend (remove any duplicate dependencies for a dependent package)
-- write (track dependencies for a dependent package)
-- install (bulk install dependencies for a dependent package)
-- uninstall (bulk uninstall dependencies for a dependent package)
-        ");
-        std::process::exit(1);
+        print_help_and_exit();
     }
 
     let user = std::env::var("USER").unwrap();
@@ -57,11 +61,11 @@ Current operations supported:
     let (dependent_package, dependee_packages) = 
         track::log(operation, &package_manager, &raw_manager_dir);
 
-    if operation == "ammend" {
-        track::ammend(&raw_manager_dir, &dependent_package);
-    } else if operation == "write" {
-        track::write(&raw_manager_dir, &dependent_package, &dependee_packages);
-    } else if operation == "install" || operation == "uninstall" {
-        pkg::manage(&package_manager, &dependee_packages, operation);
+    match operation.as_str() {
+        "ammend" => track::ammend(&raw_manager_dir, &dependent_package),
+        "remove" => track::remove(&raw_manager_dir, &dependent_package),
+        "write" => track::write(&raw_manager_dir, &dependent_package, &dependee_packages),
+        "install" | "uninstall" => pkg::manage(&package_manager, &dependee_packages, operation),
+        _ => print_help_and_exit(),
     }
 }
