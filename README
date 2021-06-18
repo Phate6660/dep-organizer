@@ -7,6 +7,11 @@ Normally someone like me would just install them and get to building,
 but you know what that leads to? Forgetting what I installed in the future,
 and wondering why I have so many packages installed.
 
+A nice little touch to this program is that it *should be* dependency-less
+(with the exception of whatever package manager you choose to use), and I plan
+to keep it that way for as long as possible. So if you can build Rust programs, 
+you should be able to build this without any trouble.
+
 ## Usage
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
