@@ -12,7 +12,7 @@ pub fn ammend(raw_manager_dir: &str, dependent_package: &str) {
 
     let lines: BTreeSet<_> = reader
         .lines()
-        .map(|l| l.unwrap())
+        .map(std::result::Result::unwrap)
         .collect();
 
     let mut file = File::create(package_file_dir).expect("Could not open the file for writing!");
