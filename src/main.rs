@@ -29,6 +29,7 @@ fn main() {
     let args = std::env::args().collect::<Vec<String>>();
     let na = "N/A".to_string();
     let operation = args.get(1).unwrap_or(&na);
+    let operation_arg = args.get(2).unwrap_or(&na); // only -a (automatically ammend) for  write is available
 
     if operation == "N/A" {
         print_help_and_exit();
@@ -65,7 +66,12 @@ fn main() {
     match operation.as_str() {
         "ammend" => track::ammend(&raw_manager_dir, &dependent_package),
         "remove" => track::remove(&raw_manager_dir, &dependent_package),
-        "write" => track::write(&raw_manager_dir, &dependent_package, &dependee_packages),
+        "write" => {
+            track::write(&raw_manager_dir, &dependent_package, &dependee_packages);
+            if operation_arg == "-a" {
+                track::ammend(&raw_manager_dir, &dependent_package);
+            }
+        },
         "install" | "uninstall" => pkg::manage(&package_manager, &dependee_packages, operation),
         _ => print_help_and_exit(),
     }

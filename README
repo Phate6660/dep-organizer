@@ -15,7 +15,9 @@ you should be able to build this without any trouble.
 ## Usage
 This aims to fix that. With this program, I can:
 - Track dependencies with `dep-organizer write`
-- Remove any duplicate dependencies that may have been tracked with `dep-organizer ammend`
+- Remove any duplicate dependencies that may have been tracked with:
+  + `dep-organizer ammend`
+  + or `dep-organizer write -a` (to automatically ammend after writing)
 - Stop tracking dependencies with `dep-organizer remove`
 - Bulk install the dependencies for a package with `dep-organizer install`
 - Bulk remove the dependencies for a package with `dep-organizer uninstall`
